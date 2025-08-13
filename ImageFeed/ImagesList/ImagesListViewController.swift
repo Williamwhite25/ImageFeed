@@ -19,6 +19,25 @@ class ImagesListViewController: UIViewController {
         tableView.rowHeight = 200
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
+    
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    private func addGradientBackground(to label: UILabel) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [
+            UIColor(red: 0.10, green: 0.11, blue: 0.13, alpha: 0.0).cgColor,
+            UIColor(red: 0.10, green: 0.11, blue: 0.13, alpha: 1.0).cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        gradientLayer.frame = label.bounds
+        
+        label.layer.sublayers?.forEach { if $0 is CAGradientLayer {
+            $0.removeFromSuperlayer() } }
+        label.layer.insertSublayer(gradientLayer, at: 0)
+    }
 }
 
 extension ImagesListViewController: UITableViewDataSource {
