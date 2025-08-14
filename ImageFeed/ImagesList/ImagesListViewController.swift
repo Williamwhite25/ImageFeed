@@ -1,10 +1,9 @@
-
 import UIKit
 
 class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
-    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
+    private let photosName: [String] = Array(0..<20).map { "\($0)" }
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -20,22 +19,24 @@ class ImagesListViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
-    private func addGradientBackground(to label: UILabel) {
+    private func addGradientBackground(to label: UILabel, in cell: UITableViewCell) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             UIColor(red: 0.10, green: 0.11, blue: 0.13, alpha: 0.0).cgColor,
-            UIColor(red: 0.10, green: 0.11, blue: 0.13, alpha: 1.0).cgColor]
+            UIColor(red: 0.10, green: 0.11, blue: 0.13, alpha: 1.0).cgColor
+        ]
+        
         gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
-        gradientLayer.frame = label.bounds
         
-        label.layer.sublayers?.forEach { if $0 is CAGradientLayer {
-            $0.removeFromSuperlayer() } }
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: cell.bounds.width, height: label.bounds.height)
+        
+        label.layer.sublayers?.forEach { if $0 is CAGradientLayer { $0.removeFromSuperlayer() } }
+        
         label.layer.insertSublayer(gradientLayer, at: 0)
     }
 }
@@ -66,6 +67,8 @@ extension ImagesListViewController {
 
         cell.cellImage.image = image
         cell.dateLabel.text = dateFormatter.string(from: Date())
+        
+        addGradientBackground(to: cell.dateLabel, in: cell)
 
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
