@@ -12,6 +12,7 @@
 		FE19440E2E4778B300787614 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE1944032E4778B300787614 /* Assets.xcassets */; };
 		FE1944102E4778B300787614 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE1944052E4778B300787614 /* LaunchScreen.storyboard */; };
 		FE1944112E4778B300787614 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE1944062E4778B300787614 /* Main.storyboard */; };
+		FE7468062E4D9E4D00718366 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7468052E4D9E3B00718366 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		FE1944072E4778B300787614 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FE1944092E4778B300787614 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FE19440A2E4778B300787614 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FE7468052E4D9E3B00718366 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -68,9 +70,26 @@
 				FE1944062E4778B300787614 /* Main.storyboard */,
 				FE1944032E4778B300787614 /* Assets.xcassets */,
 				FE1944042E4778B300787614 /* Info.plist */,
-				FE1943BB2E44F8BB00787614 /* ImagesList */,
+				FE7468032E4D9DE200718366 /* ViewControllers */,
 			);
 			path = ImageFeed;
+			sourceTree = "<group>";
+		};
+		FE7468032E4D9DE200718366 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FE7468042E4D9E0700718366 /* Profile */,
+				FE1943BB2E44F8BB00787614 /* ImagesList */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		FE7468042E4D9E0700718366 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				FE7468052E4D9E3B00718366 /* ProfileViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE19440B2E4778B300787614 /* AppDelegate.swift in Sources */,
+				FE7468062E4D9E4D00718366 /* ProfileViewController.swift in Sources */,
 				FE19440C2E4778B300787614 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
