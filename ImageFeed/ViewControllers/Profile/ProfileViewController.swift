@@ -1,31 +1,17 @@
-//
-//import UIKit
-//
-//final class ProfileViewController: UIViewController {
-//    @IBOutlet private var avatarImageVieww: UIImageView!
-//    @IBOutlet private var nameLabel: UILabel!
-//    @IBOutlet private var loginNameLabel: UILabel!
-//    @IBOutlet private var descriptionLabel: UILabel!
-//    
-//    @IBOutlet private var logoutButton: UIButton!
-//    
-//    @IBAction func didTapLogoutButton() {
-//    }
-//    
-//}
-
-
-
-//Я правильно понял, что @IBOutlet надо удалить? Я на всякий сслучай оставил. Напишите ответ после проверки, спасибо!
 
 import UIKit
 
 final class ProfileViewController: UIViewController {
+    
+//    MARK: UI Elements
+    
     private var avatarImageView: UIImageView!
     private var nameLabel: UILabel!
     private var loginNameLabel: UILabel!
     private var descriptionLabel: UILabel!
     private var logoutButton: UIButton!
+    
+//    MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +22,8 @@ final class ProfileViewController: UIViewController {
         setupDescriptionLabel()
         setupLogoutButton()
     }
+    
+//    MARK: Setup UI
     
     private func setupAvatarImageView() {
         avatarImageView = UIImageView(image: UIImage(named: "Avatar"))
@@ -114,6 +102,8 @@ final class ProfileViewController: UIViewController {
             
         ])
     }
+    
+//    MARK: Actions
     
     @objc
     private func didTapLogoutButton() {}
