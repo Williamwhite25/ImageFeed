@@ -3,7 +3,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-//    MARK: UI Elements
+    //    MARK: UI Elements
     
     private var avatarImageView: UIImageView!
     private var nameLabel: UILabel!
@@ -11,8 +11,8 @@ final class ProfileViewController: UIViewController {
     private var descriptionLabel: UILabel!
     private var logoutButton: UIButton!
     
-//    MARK: Lifecycle
-
+    //    MARK: Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,7 +23,7 @@ final class ProfileViewController: UIViewController {
         setupLogoutButton()
     }
     
-//    MARK: Setup UI
+    //    MARK: Setup UI
     
     private func setupAvatarImageView() {
         avatarImageView = UIImageView(image: UIImage(named: "Avatar"))
@@ -103,7 +103,7 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-//    MARK: Actions
+    //    MARK: Actions
     
     @objc
     private func didTapLogoutButton() {}

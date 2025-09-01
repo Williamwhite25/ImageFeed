@@ -55,7 +55,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             case .success(let token):
                 print("Получен токен: \(token)")
                 DispatchQueue.main.async {
-                   
+                    
                     self?.delegate?.didAuthenticate(self!)
                 }
             case .failure(let error):
@@ -68,7 +68,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             }
         }
     }
-
+    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
     }
