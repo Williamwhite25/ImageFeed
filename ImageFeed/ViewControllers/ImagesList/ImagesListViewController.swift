@@ -2,7 +2,7 @@ import UIKit
 
 final class ImagesListViewController: UIViewController {
     
-//    MARK: Properties
+    //    MARK: Properties
     
     private let segueID = "ShowSingleImage"
     
@@ -17,7 +17,7 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-// MARK: Lifecycle
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,7 +46,7 @@ final class ImagesListViewController: UIViewController {
         return .lightContent
     }
     
-//    MARK: Private Methods
+    //    MARK: Private Methods
     
     private func addGradientBackground(to label: UILabel, in cell: UITableViewCell) {
         let gradientLayer = CAGradientLayer()
@@ -72,16 +72,16 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photoNames.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-
+        
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-
+        
         configCell(for: imageListCell, with: indexPath)
-
+        
         return imageListCell
     }
 }
@@ -93,12 +93,12 @@ extension ImagesListViewController {
         guard let image = UIImage(named: photoNames[indexPath.row]) else {
             return
         }
-
+        
         cell.cellImage.image = image
         cell.dateLabel.text = dateFormatter.string(from: Date())
         
         addGradientBackground(to: cell.dateLabel, in: cell)
-
+        
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         cell.likeButton.setImage(likeImage, for: .normal)
@@ -111,7 +111,7 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: segueID, sender: indexPath)
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let image = UIImage(named: photoNames[indexPath.row]) else {
             return 0

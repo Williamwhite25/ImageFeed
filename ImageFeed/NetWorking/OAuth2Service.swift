@@ -1,56 +1,71 @@
+
+
 import Foundation
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
     private init() {}
-
-    private func makeOAuthTokenRequest(code: String) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token") else {
-            return nil
-        }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "client_secret", value: Constants.secretKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "code", value: code),
-            URLQueryItem(name: "grant_type", value: "authorization_code"),
-        ]
-        
-        guard let authTokenUrl = urlComponents.url else {
-            return nil
-        }
-        
-        var request = URLRequest(url: authTokenUrl)
-        request.httpMethod = "POST"
-        return request
-    }
-
+    
+    private let decoder: JSONDecoder = {
+        let dec = JSONDecoder()
+        return dec
+    }()
+    
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let request = makeOAuthTokenRequest(code: code) else {
             completion(.failure(NetworkError.invalidRequest))
             return
         }
-
-        let task = URLSession.shared.data(for: request) { result in
+        
+        let task = URLSession.shared.data(for: request) { [weak self] result in
             switch result {
             case .success(let data):
+                guard let self = self else {
+                    completion(.failure(NetworkError.invalidResponse))
+                    return
+                }
                 do {
-                    let decoder = JSONDecoder()
-                    let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    
+                    let responseBody = try self.decoder.decode(OAuthTokenResponseBody.self, from: data)
                     OAuth2TokenStorage.shared.token = responseBody.accessToken
-                    
                     completion(.success(responseBody.accessToken))
                 } catch {
-                    print("Ошибка декодирования: \(error)")
                     completion(.failure(NetworkError.decodingError(error)))
                 }
+                
             case .failure(let error):
-                print("Сетевая ошибка: \(error)")
                 completion(.failure(error))
             }
         }
         task.resume()
+    }
+}
+
+private extension OAuth2Service {
+    func makeOAuthTokenRequest(code: String) -> URLRequest? {
+        guard let url = URL(string: "https://unsplash.com/oauth/token") else { return nil }
+        
+        var request = URLRequest(url: url)
+        request.setMethod(.post)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        
+        let params: [String: String] = [
+            "client_id": Constants.accessKey,
+            "client_secret": Constants.secretKey,
+            "redirect_uri": Constants.redirectURI,
+            "code": code,
+            "grant_type": "authorization_code"
+        ]
+        
+        let bodyString = params
+            .map { key, value in
+                let allowed = CharacterSet.alphanumerics.union(.init(charactersIn: "-._~"))
+                let k = key.addingPercentEncoding(withAllowedCharacters: allowed) ?? key
+                let v = value.addingPercentEncoding(withAllowedCharacters: allowed) ?? value
+                return "\(k)=\(v)"
+            }
+            .joined(separator: "&")
+        
+        request.httpBody = bodyString.data(using: .utf8)
+        return request
     }
 }

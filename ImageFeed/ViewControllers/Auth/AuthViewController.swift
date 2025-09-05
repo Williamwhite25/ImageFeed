@@ -23,17 +23,20 @@ final class AuthViewController: UIViewController {
     // MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showWebViewSegueIdentifier {
-            guard
-                let webViewViewController = segue.destination as? WebViewViewController
-            else {
-                assertionFailure("Failed to prepare for \(showWebViewSegueIdentifier)")
-                return
-            }
-            webViewViewController.delegate = self
-        } else {
+        switch segue.identifier {
+        case showWebViewSegueIdentifier:
+            prepareWebViewController(for: segue)
+        default:
             super.prepare(for: segue, sender: sender)
         }
+    }
+
+    private func prepareWebViewController(for segue: UIStoryboardSegue) {
+        guard let webViewViewController = segue.destination as? WebViewViewController else {
+            assertionFailure("Failed to prepare for \(showWebViewSegueIdentifier)")
+            return
+        }
+        webViewViewController.delegate = self
     }
     
     // MARK: Private Methods
@@ -55,7 +58,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             case .success(let token):
                 print("Получен токен: \(token)")
                 DispatchQueue.main.async {
-                   
+                    
                     self?.delegate?.didAuthenticate(self!)
                 }
             case .failure(let error):
@@ -68,7 +71,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             }
         }
     }
-
+    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
     }

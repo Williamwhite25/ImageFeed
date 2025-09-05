@@ -1,22 +1,21 @@
 
 import UIKit
-import WebKit
-// Надо добавлять @preconcurrency или нет? Я посмотрел что это такое, но не знаю в реальных проектах что с этим делают, оставляют как есть или добавляют @preconcurrency?
+@preconcurrency import WebKit
 
-    //    MARK: WebViewConstants
+//    MARK: WebViewConstants
 
 enum WebViewConstants {
     static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 }
 
-    // MARK: WebViewViewControllerDelegate
+// MARK: WebViewViewControllerDelegate
 
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }
 
-    // MARK: WebViewViewController
+// MARK: WebViewViewController
 
 final class WebViewViewController: UIViewController {
     @IBOutlet private var webView: WKWebView!
@@ -30,11 +29,16 @@ final class WebViewViewController: UIViewController {
         super.viewDidLoad()
         
         webView.navigationDelegate = self
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
         loadAuthView()
     }
     
-override func viewDidAppear(_ animated: Bool) {
+    deinit {
+        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         webView.addObserver(
             self,
@@ -44,14 +48,14 @@ override func viewDidAppear(_ animated: Bool) {
         updateProgress()
     }
     
-override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
     }
     
     // MARK: Private Methods
     
-private func loadAuthView() {
+    private func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
             return
         }
@@ -70,45 +74,45 @@ private func loadAuthView() {
         webView.load(request)
     }
     
-private func updateProgress() {
+    private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
-        }
+    }
     
     // MARK: Actions
-
+    
     @IBAction private func didTapBackButton(_ sender: Any?) {
-    delegate?.webViewViewControllerDidCancel(self)
-}
-
+        delegate?.webViewViewControllerDidCancel(self)
+    }
+    
     // MARK: - KVO
-
-override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-    if keyPath == #keyPath(WKWebView.estimatedProgress) {
-        updateProgress()
-    } else {
-        super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == #keyPath(WKWebView.estimatedProgress) {
+            updateProgress()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
 }
 
-    // MARK: WKNavigationDelegate
+// MARK: WKNavigationDelegate
 
 extension WebViewViewController: WKNavigationDelegate {
     func webView(
-    _ webView: WKWebView,
-    decidePolicyFor navigationAction: WKNavigationAction,
-    decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
-) {
-      if let code = code(from: navigationAction) {
-          delegate?.webViewViewController(self, didAuthenticateWithCode: code)
-          decisionHandler(.cancel)
-      } else {
-          decisionHandler(.allow)
-      }
-  }
-
-private func code(from navigationAction: WKNavigationAction) -> String? {
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    ) {
+        if let code = code(from: navigationAction) {
+            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+    }
+    
+    private func code(from navigationAction: WKNavigationAction) -> String? {
         if
             let url = navigationAction.request.url,
             let urlComponents = URLComponents(string: url.absoluteString),

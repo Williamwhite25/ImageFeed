@@ -1,4 +1,3 @@
-
 import Foundation
 
 enum NetworkError: Error {
@@ -6,5 +5,6 @@ enum NetworkError: Error {
     case urlRequestError(Error)
     case urlSessionError
     case invalidRequest
+    case invalidResponse
     case decodingError(Error)
 }

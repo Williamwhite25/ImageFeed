@@ -12,11 +12,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+        
+        if url.scheme == "imagefeed", let code = extractCode(from: url) {
+            OAuth2Service.shared.fetchOAuthToken(code: code) { result in
+                switch result {
+                case .success(let token):
+                    print(" OAuth: \(token)")
+                    NotificationCenter.default.post(name: .didAuthenticate, object: nil)
+                case .failure(let error):
+                    print("Error OAuth: \(error)")
+                }
+            }
+        }
+    }
+
+    private func extractCode(from url: URL) -> String? {
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        return components?.queryItems?.first(where: { $0.name == "code" })?.value
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -49,4 +63,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-
