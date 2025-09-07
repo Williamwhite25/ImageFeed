@@ -24,6 +24,7 @@
 		FE345CE12E656DEB000D9AB8 /* URLRequest+Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345CE02E656DDF000D9AB8 /* URLRequest+Method.swift */; };
 		FE345DF42E6B1F38000D9AB8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE345DF32E6B1F37000D9AB8 /* WebKit.framework */; };
 		FE345DF72E6B21A8000D9AB8 /* NotificationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345DF62E6B2197000D9AB8 /* NotificationExtensions.swift */; };
+		FE345E3B2E6C54A3000D9AB8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345E3A2E6C549C000D9AB8 /* TabBarController.swift */; };
 		FE7468062E4D9E4D00718366 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7468052E4D9E3B00718366 /* ProfileViewController.swift */; };
 		FE7468202E50BF3D00718366 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE74681F2E50BF3600718366 /* SingleImageViewController.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		FE345CE02E656DDF000D9AB8 /* URLRequest+Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Method.swift"; sourceTree = "<group>"; };
 		FE345DF32E6B1F37000D9AB8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		FE345DF62E6B2197000D9AB8 /* NotificationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtensions.swift; sourceTree = "<group>"; };
+		FE345E3A2E6C549C000D9AB8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		FE7468052E4D9E3B00718366 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FE74681F2E50BF3600718366 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -168,9 +170,18 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		FE345E392E6C5478000D9AB8 /* TabBarViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FE345E3A2E6C549C000D9AB8 /* TabBarController.swift */,
+			);
+			path = TabBarViewController;
+			sourceTree = "<group>";
+		};
 		FE7468032E4D9DE200718366 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FE345E392E6C5478000D9AB8 /* TabBarViewController */,
 				FE345CD52E61D82A000D9AB8 /* SplashViewController */,
 				FE345CB22E606901000D9AB8 /* Auth */,
 				FE7468212E50C3DF00718366 /* SingleImageView */,
@@ -276,6 +287,7 @@
 				FE19440B2E4778B300787614 /* AppDelegate.swift in Sources */,
 				FE7468062E4D9E4D00718366 /* ProfileViewController.swift in Sources */,
 				FE345CB42E60691E000D9AB8 /* AuthViewController.swift in Sources */,
+				FE345E3B2E6C54A3000D9AB8 /* TabBarController.swift in Sources */,
 				FE345DF72E6B21A8000D9AB8 /* NotificationExtensions.swift in Sources */,
 				FE345CC42E61762C000D9AB8 /* URLSession+Helper.swift in Sources */,
 				FE345CB12E602C93000D9AB8 /* Constants.swift in Sources */,

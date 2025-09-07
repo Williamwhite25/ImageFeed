@@ -9,7 +9,7 @@ protocol AuthViewControllerDelegate: AnyObject {
 // MARK: AuthViewController
 
 final class AuthViewController: UIViewController {
-    private let showWebViewSegueIdentifier = "showWebView"
+    private let showWebViewSegueIdentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
     
     // MARK: Lifecycle
@@ -30,7 +30,7 @@ final class AuthViewController: UIViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-
+    
     private func prepareWebViewController(for segue: UIStoryboardSegue) {
         guard let webViewViewController = segue.destination as? WebViewViewController else {
             assertionFailure("Failed to prepare for \(showWebViewSegueIdentifier)")
@@ -58,15 +58,16 @@ extension AuthViewController: WebViewViewControllerDelegate {
             case .success(let token):
                 print("Получен токен: \(token)")
                 DispatchQueue.main.async {
-                    
-                    self?.delegate?.didAuthenticate(self!)
+                    guard let self = self else { return }
+                    self.delegate?.didAuthenticate(self)
                 }
             case .failure(let error):
                 print("Ошибка: \(error.localizedDescription)")
                 DispatchQueue.main.async {
+                    guard let self = self else { return }
                     let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
-                    self?.present(alert, animated: true)
+                    self.present(alert, animated: true)
                 }
             }
         }

@@ -17,11 +17,12 @@ final class SplashViewController: UIViewController {
             object: nil
         )
     }
-
+    
     @objc private func didAuthenticateNotification() {
         if storage.token != nil {
             switchToTabBarController()
         } else {
+            print("Ошибка: Токен отсутствует при получении уведомления об аутентификации.")
         }
     }
     
@@ -44,6 +45,10 @@ final class SplashViewController: UIViewController {
         .lightContent
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .didAuthenticate, object: nil)
+    }
+    
     // MARK: Private Methods
     
     private func switchToTabBarController() {
@@ -52,10 +57,10 @@ final class SplashViewController: UIViewController {
             assertionFailure("Invalid window configuration")
             return
         }
-
+        
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarController")
-
+        
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
@@ -69,7 +74,7 @@ extension SplashViewController {
         if segue.identifier == showAuthenticationScreenSegueIdentifier {
             guard
                 let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
+                let viewController = navigationController.viewControllers.first as? AuthViewController
             else {
                 assertionFailure("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
                 return
@@ -90,6 +95,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             if self.storage.token != nil {
                 self.switchToTabBarController()
             } else {
+                print("Ошибка: Токен отсутствует после аутентификации.")
             }
         }
     }
