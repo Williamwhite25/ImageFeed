@@ -63,8 +63,13 @@ extension AuthViewController: WebViewViewControllerDelegate {
             case .success(let token):
                 print("✅ Успешно получен токен: \(token)")
                 DispatchQueue.main.async {
+<<<<<<< HEAD
                     guard let self = self else { return }
                     self.delegate?.didAuthenticate(self)
+=======
+                    
+                    self?.delegate?.didAuthenticate(self!)
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
                 }
             case .failure(let error):
                 print("❌ Ошибка получения токена: \(error.localizedDescription)")

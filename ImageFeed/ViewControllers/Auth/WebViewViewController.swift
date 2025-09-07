@@ -34,10 +34,13 @@ final class WebViewViewController: UIViewController {
         loadAuthView()
     }
     
+<<<<<<< HEAD
     deinit {
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
     }
     
+=======
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         webView.addObserver(

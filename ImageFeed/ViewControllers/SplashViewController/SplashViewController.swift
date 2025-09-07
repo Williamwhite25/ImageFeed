@@ -61,9 +61,14 @@ final class SplashViewController: UIViewController {
     }
 }
 
+<<<<<<< HEAD
 
 // MARK: Navigation
 
+=======
+// MARK: Navigation
+
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showAuthenticationScreenSegueIdentifier {
@@ -85,6 +90,7 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
+<<<<<<< HEAD
         vc.dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             if self.storage.token != nil {
@@ -92,5 +98,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             } else {
             }
         }
+=======
+        vc.dismiss(animated: true)
+        
+        switchToTabBarController()
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
     }
 }

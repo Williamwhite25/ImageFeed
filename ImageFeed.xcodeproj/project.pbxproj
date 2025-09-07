@@ -22,8 +22,12 @@
 		FE345CD02E617CEE000D9AB8 /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345CCF2E617CDC000D9AB8 /* OAuth2TokenStorage.swift */; };
 		FE345CD72E61D83A000D9AB8 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345CD62E61D837000D9AB8 /* SplashViewController.swift */; };
 		FE345CE12E656DEB000D9AB8 /* URLRequest+Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345CE02E656DDF000D9AB8 /* URLRequest+Method.swift */; };
+<<<<<<< HEAD
 		FE345DF42E6B1F38000D9AB8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE345DF32E6B1F37000D9AB8 /* WebKit.framework */; };
 		FE345DF72E6B21A8000D9AB8 /* NotificationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345DF62E6B2197000D9AB8 /* NotificationExtensions.swift */; };
+=======
+		FE345CE82E657919000D9AB8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE345CE72E657919000D9AB8 /* WebKit.framework */; };
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
 		FE7468062E4D9E4D00718366 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7468052E4D9E3B00718366 /* ProfileViewController.swift */; };
 		FE7468202E50BF3D00718366 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE74681F2E50BF3600718366 /* SingleImageViewController.swift */; };
 /* End PBXBuildFile section */
@@ -46,8 +50,12 @@
 		FE345CCF2E617CDC000D9AB8 /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
 		FE345CD62E61D837000D9AB8 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		FE345CE02E656DDF000D9AB8 /* URLRequest+Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Method.swift"; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		FE345DF32E6B1F37000D9AB8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		FE345DF62E6B2197000D9AB8 /* NotificationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtensions.swift; sourceTree = "<group>"; };
+=======
+		FE345CE72E657919000D9AB8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
 		FE7468052E4D9E3B00718366 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FE74681F2E50BF3600718366 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -65,7 +73,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				FE345DF42E6B1F38000D9AB8 /* WebKit.framework in Frameworks */,
+=======
+				FE345CE82E657919000D9AB8 /* WebKit.framework in Frameworks */,
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +88,11 @@
 			isa = PBXGroup;
 			children = (
 				FE1944142E47892800787614 /* ImageFeed */,
+<<<<<<< HEAD
 				FE345DF22E6B1F37000D9AB8 /* Frameworks */,
+=======
+				FE345CE62E657918000D9AB8 /* Frameworks */,
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
 				FE1943BA2E44F8BB00787614 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -152,14 +168,22 @@
 			path = SplashViewController;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		FE345DF22E6B1F37000D9AB8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				FE345DF32E6B1F37000D9AB8 /* WebKit.framework */,
+=======
+		FE345CE62E657918000D9AB8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE345CE72E657919000D9AB8 /* WebKit.framework */,
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		FE345DF52E6B218D000D9AB8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +192,8 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+=======
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
 		FE7468032E4D9DE200718366 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,7 +302,10 @@
 				FE19440B2E4778B300787614 /* AppDelegate.swift in Sources */,
 				FE7468062E4D9E4D00718366 /* ProfileViewController.swift in Sources */,
 				FE345CB42E60691E000D9AB8 /* AuthViewController.swift in Sources */,
+<<<<<<< HEAD
 				FE345DF72E6B21A8000D9AB8 /* NotificationExtensions.swift in Sources */,
+=======
+>>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
 				FE345CC42E61762C000D9AB8 /* URLSession+Helper.swift in Sources */,
 				FE345CB12E602C93000D9AB8 /* Constants.swift in Sources */,
 				FE345CCD2E617C22000D9AB8 /* OAuthTokenResponseBody.swift in Sources */,
