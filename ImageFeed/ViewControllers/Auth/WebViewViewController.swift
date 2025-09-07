@@ -2,7 +2,7 @@
 import UIKit
 @preconcurrency import WebKit
 
-//    MARK: WebViewConstants
+// MARK: WebViewConstants
 
 enum WebViewConstants {
     static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
@@ -34,26 +34,8 @@ final class WebViewViewController: UIViewController {
         loadAuthView()
     }
     
-<<<<<<< HEAD
     deinit {
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
-    }
-    
-=======
->>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        webView.addObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            options: .new,
-            context: nil)
-        updateProgress()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
     }
     
     // MARK: Private Methods

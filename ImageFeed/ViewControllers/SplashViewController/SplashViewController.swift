@@ -17,11 +17,12 @@ final class SplashViewController: UIViewController {
             object: nil
         )
     }
-
+    
     @objc private func didAuthenticateNotification() {
         if storage.token != nil {
             switchToTabBarController()
         } else {
+            print("Ошибка: Токен отсутствует при получении уведомления об аутентификации.")
         }
     }
     
@@ -44,6 +45,10 @@ final class SplashViewController: UIViewController {
         .lightContent
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .didAuthenticate, object: nil)
+    }
+    
     // MARK: Private Methods
     
     private func switchToTabBarController() {
@@ -52,29 +57,24 @@ final class SplashViewController: UIViewController {
             assertionFailure("Invalid window configuration")
             return
         }
-
+        
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarController")
-
+        
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
 }
 
-<<<<<<< HEAD
 
 // MARK: Navigation
 
-=======
-// MARK: Navigation
-
->>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showAuthenticationScreenSegueIdentifier {
             guard
                 let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
+                let viewController = navigationController.viewControllers.first as? AuthViewController
             else {
                 assertionFailure("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
                 return
@@ -90,18 +90,13 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
-<<<<<<< HEAD
         vc.dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             if self.storage.token != nil {
                 self.switchToTabBarController()
             } else {
+                print("Ошибка: Токен отсутствует после аутентификации.")
             }
         }
-=======
-        vc.dismiss(animated: true)
-        
-        switchToTabBarController()
->>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
     }
 }

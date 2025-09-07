@@ -9,7 +9,7 @@ protocol AuthViewControllerDelegate: AnyObject {
 // MARK: AuthViewController
 
 final class AuthViewController: UIViewController {
-    private let showWebViewSegueIdentifier = "showWebView"
+    private let showWebViewSegueIdentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
     
     // MARK: Lifecycle
@@ -17,14 +17,12 @@ final class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("🔹 AuthViewController загружен")
         configureBackButton()
     }
     
     // MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("➡️ Подготовка к переходу с идентификатором: \(segue.identifier ?? "без идентификатора")")
         switch segue.identifier {
         case showWebViewSegueIdentifier:
             prepareWebViewController(for: segue)
@@ -32,13 +30,12 @@ final class AuthViewController: UIViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-
+    
     private func prepareWebViewController(for segue: UIStoryboardSegue) {
         guard let webViewViewController = segue.destination as? WebViewViewController else {
-            assertionFailure("❌ Не удалось подготовить WebViewViewController для \(showWebViewSegueIdentifier)")
+            assertionFailure("Failed to prepare for \(showWebViewSegueIdentifier)")
             return
         }
-        print("ℹ️ WebViewViewController подготовлен")
         webViewViewController.delegate = self
     }
     
@@ -49,7 +46,6 @@ final class AuthViewController: UIViewController {
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "ypBlack")
-        print("ℹ️ Назад кнопка настроена")
     }
 }
 
@@ -57,22 +53,16 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        print("🔑 Получен код авторизации: \(code)")
         OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
             switch result {
             case .success(let token):
-                print("✅ Успешно получен токен: \(token)")
+                print("Получен токен: \(token)")
                 DispatchQueue.main.async {
-<<<<<<< HEAD
                     guard let self = self else { return }
                     self.delegate?.didAuthenticate(self)
-=======
-                    
-                    self?.delegate?.didAuthenticate(self!)
->>>>>>> d5e9bcf49a06540daeebccb1100a45df8f5f2041
                 }
             case .failure(let error):
-                print("❌ Ошибка получения токена: \(error.localizedDescription)")
+                print("Ошибка: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     guard let self = self else { return }
                     let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
@@ -84,7 +74,6 @@ extension AuthViewController: WebViewViewControllerDelegate {
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-        print("ℹ️ Отмена авторизации")
         vc.dismiss(animated: true)
     }
 }
