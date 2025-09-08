@@ -156,17 +156,13 @@
                         <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="cvO-Of-aSF" firstAttribute="bottom" secondItem="v7V-YH-gHg" secondAttribute="bottom" id="2vo-4U-SNP"/>
-                            <constraint firstItem="yZe-sD-5fP" firstAttribute="leading" secondItem="cvO-Of-aSF" secondAttribute="leading" id="3kx-X3-7ks"/>
                             <constraint firstItem="cvO-Of-aSF" firstAttribute="trailing" secondItem="yZe-sD-5fP" secondAttribute="trailing" id="9nC-sV-aRi"/>
-                            <constraint firstItem="cvO-Of-aSF" firstAttribute="trailing" secondItem="yZe-sD-5fP" secondAttribute="trailing" id="EtD-CO-Z3E"/>
                             <constraint firstItem="yZe-sD-5fP" firstAttribute="bottom" secondItem="FEL-Dg-7P9" secondAttribute="bottom" constant="17" id="Jcg-oV-qYv"/>
                             <constraint firstItem="T4J-T6-vo8" firstAttribute="top" secondItem="yZe-sD-5fP" secondAttribute="top" constant="8" id="KMr-JV-0Od"/>
-                            <constraint firstItem="cvO-Of-aSF" firstAttribute="top" secondItem="yZe-sD-5fP" secondAttribute="top" id="WOj-kH-tsV"/>
                             <constraint firstItem="T4J-T6-vo8" firstAttribute="leading" secondItem="yZe-sD-5fP" secondAttribute="leading" constant="8" id="Zca-Iv-u4z"/>
                             <constraint firstItem="cvO-Of-aSF" firstAttribute="top" secondItem="v7V-YH-gHg" secondAttribute="top" id="bfb-SG-bJp"/>
                             <constraint firstItem="FEL-Dg-7P9" firstAttribute="centerX" secondItem="yZe-sD-5fP" secondAttribute="centerX" id="cpv-sr-POA"/>
                             <constraint firstItem="cvO-Of-aSF" firstAttribute="leading" secondItem="yZe-sD-5fP" secondAttribute="leading" id="rCI-jd-dt6"/>
-                            <constraint firstItem="cvO-Of-aSF" firstAttribute="bottom" secondItem="yZe-sD-5fP" secondAttribute="bottom" id="tJa-bM-bQ7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="A7E-xL-Em1"/>
