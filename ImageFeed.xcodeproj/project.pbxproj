@@ -24,6 +24,7 @@
 		FE345CE12E656DEB000D9AB8 /* URLRequest+Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345CE02E656DDF000D9AB8 /* URLRequest+Method.swift */; };
 		FE345E3B2E6C54A3000D9AB8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345E3A2E6C549C000D9AB8 /* TabBarController.swift */; };
 		FE345F4C2E6D6E37000D9AB8 /* NotificationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE345F4B2E6D6E17000D9AB8 /* NotificationExtensions.swift */; };
+		FE34603D2E6FEB41000D9AB8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE34603C2E6FEB41000D9AB8 /* WebKit.framework */; };
 		FE7468062E4D9E4D00718366 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7468052E4D9E3B00718366 /* ProfileViewController.swift */; };
 		FE7468202E50BF3D00718366 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE74681F2E50BF3600718366 /* SingleImageViewController.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		FE345CE02E656DDF000D9AB8 /* URLRequest+Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Method.swift"; sourceTree = "<group>"; };
 		FE345E3A2E6C549C000D9AB8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		FE345F4B2E6D6E17000D9AB8 /* NotificationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtensions.swift; sourceTree = "<group>"; };
+		FE34603C2E6FEB41000D9AB8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		FE7468052E4D9E3B00718366 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FE74681F2E50BF3600718366 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -65,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE34603D2E6FEB41000D9AB8 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +157,7 @@
 		FE345CE62E657918000D9AB8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE34603C2E6FEB41000D9AB8 /* WebKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

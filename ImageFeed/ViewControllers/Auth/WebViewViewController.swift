@@ -1,6 +1,6 @@
 
 import UIKit
-@preconcurrency import WebKit
+import WebKit
 
 // MARK: WebViewConstants
 
