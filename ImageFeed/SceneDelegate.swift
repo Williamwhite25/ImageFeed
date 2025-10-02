@@ -12,18 +12,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Убедитесь, что сцена является UIWindowScene
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        // Создаем окно с использованием UIWindowScene
         window = UIWindow(windowScene: windowScene)
-        
-        // Устанавливаем SplashViewController в качестве корневого контроллера
-        window?.rootViewController = SplashViewController()
-        
-        // Делаем окно ключевым и видимым
+        window?.rootViewController = SplashViewController() 
         window?.makeKeyAndVisible()
     }
+    
+
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else { return }

@@ -60,7 +60,7 @@ final class SplashViewController: UIViewController {
                 self.switchToTabBarController()
 
             case let .failure(error):
-                print(error)
+                print("Ошибка при получении профиля: \(error)")
                 break
             }
         }
@@ -86,7 +86,10 @@ final class SplashViewController: UIViewController {
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarController")
         
-        window.rootViewController = tabBarController
+        // Добавляем анимацию перехода
+        UIView.transition(with: window, duration: 0.5, options: [.transitionFlipFromRight]) {
+            window.rootViewController = tabBarController
+        }
         window.makeKeyAndVisible()
     }
 }

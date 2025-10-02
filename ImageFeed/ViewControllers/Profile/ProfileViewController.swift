@@ -5,20 +5,20 @@ import Kingfisher
 final class ProfileViewController: UIViewController {
     
     // MARK: UI Elements
-    
-    private var avatarImageView: UIImageView!
-    private var nameLabel: UILabel!
-    private var loginNameLabel: UILabel!
-    private var descriptionLabel: UILabel!
-    private var logoutButton: UIButton!
+    private var avatarImageView = UIImageView()
+    private var nameLabel = UILabel()
+    private var loginNameLabel = UILabel()
+    private var descriptionLabel = UILabel()
+    private var logoutButton = UIButton()
     
     // MARK: Observer
     private var profileImageServiceObserver: NSObjectProtocol?
 
     // MARK: Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = UIColor(red: 0.1059, green: 0.1098, blue: 0.1373, alpha: 1.0)
         
         setupAvatarImageView()
         setupNameLabel()
@@ -26,14 +26,12 @@ final class ProfileViewController: UIViewController {
         setupDescriptionLabel()
         setupLogoutButton()
         
-        // Получаем профиль и обновляем детали
         if let profile = ProfileService.shared.profile {
             updateProfileDetails(profile: profile)
         } else {
             print("Ошибка: Профиль не найден.")
         }
         
-        // Добавление наблюдателя
         profileImageServiceObserver = NotificationCenter.default.addObserver(
             forName: ProfileImageService.didChangeNotification,
             object: nil,
@@ -43,21 +41,17 @@ final class ProfileViewController: UIViewController {
             self.updateAvatar()
         }
         
-        // Обновить аватар при загрузке, если URL уже доступен
         updateAvatar()
     }
     
     deinit {
-        // Удаление наблюдателя
         if let observer = profileImageServiceObserver {
             NotificationCenter.default.removeObserver(observer)
         }
     }
     
     // MARK: Setup UI
-    
     private func setupAvatarImageView() {
-        avatarImageView = UIImageView(image: UIImage(named: "Avatar"))
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         avatarImageView.contentMode = .scaleAspectFill
         avatarImageView.clipsToBounds = true
@@ -72,7 +66,6 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupNameLabel() {
-        nameLabel = UILabel()
         nameLabel.textColor = UIColor.white
         nameLabel.font = UIFont.boldSystemFont(ofSize: 23)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -85,7 +78,6 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupLoginNameLabel() {
-        loginNameLabel = UILabel()
         loginNameLabel.textColor = UIColor(red: 174/255, green: 175/255, blue: 180/255, alpha: 1.0)
         loginNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -98,7 +90,6 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupDescriptionLabel() {
-        descriptionLabel = UILabel()
         descriptionLabel.textColor = UIColor(white: 1.0, alpha: 1.0)
         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         descriptionLabel.numberOfLines = 0
@@ -113,11 +104,17 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupLogoutButton() {
+        guard let logoutImage = UIImage(systemName: "ipad.and.arrow.forward") else {
+            print("Не удалось создать изображение для кнопки выхода")
+            return
+        }
+
         logoutButton = UIButton.systemButton(
-            with: UIImage(systemName: "ipad.and.arrow.forward")!,
+            with: logoutImage,
             target: self,
             action: #selector(didTapLogoutButton)
         )
+        
         logoutButton.tintColor = UIColor(red: 245/255, green: 107/255, blue: 108/255, alpha: 1.0)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
@@ -131,21 +128,13 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: Update Profile Details
-    
     private func updateProfileDetails(profile: Profile) {
-        nameLabel.text = profile.name.isEmpty
-            ? "Имя не указано"
-            : profile.name
-        loginNameLabel.text = profile.loginName.isEmpty
-            ? "@неизвестный_пользователь"
-            : profile.loginName
-        descriptionLabel.text = (profile.bio?.isEmpty ?? true)
-            ? "Профиль не заполнен"
-            : profile.bio
+        nameLabel.text = profile.name.isEmpty ? "Имя не указано" : profile.name
+        loginNameLabel.text = profile.loginName.isEmpty ? "@неизвестный_пользователь" : profile.loginName
+        descriptionLabel.text = (profile.bio?.isEmpty ?? true) ? "Профиль не заполнен" : profile.bio
     }
     
     // MARK: Update Avatar
-    
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
@@ -156,16 +145,16 @@ final class ProfileViewController: UIViewController {
             .withTintColor(.lightGray, renderingMode: .alwaysOriginal)
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 70, weight: .regular, scale: .large))
         
-        let processor = RoundCornerImageProcessor(cornerRadius: 35) // Радиус для круга
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(
             with: url,
             placeholder: placeholderImage,
             options: [
                 .processor(processor),
-                .scaleFactor(UIScreen.main.scale), // Учитываем масштаб экрана
-                .cacheOriginalImage, // Кэшируем оригинал
-                .forceRefresh // Игнорируем кэш, чтобы обновить
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage,
+                .forceRefresh
             ]) { result in
                 switch result {
                 case .success(let value):
@@ -178,12 +167,12 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: Actions
-    
     @objc
     private func didTapLogoutButton() {
-        
+     
     }
 }
+
 
 
 
