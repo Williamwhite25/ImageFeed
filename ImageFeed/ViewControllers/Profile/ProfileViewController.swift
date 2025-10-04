@@ -18,7 +18,8 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(red: 0.1059, green: 0.1098, blue: 0.1373, alpha: 1.0)
+        view.backgroundColor = UIColor(named: "ypBlack")
+
         
         setupAvatarImageView()
         setupNameLabel()
@@ -120,8 +121,8 @@ final class ProfileViewController: UIViewController {
         view.addSubview(logoutButton)
         
         NSLayoutConstraint.activate([
-            logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
+            logoutButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -36),
             logoutButton.widthAnchor.constraint(equalToConstant: 24),
             logoutButton.heightAnchor.constraint(equalToConstant: 24)
         ])
