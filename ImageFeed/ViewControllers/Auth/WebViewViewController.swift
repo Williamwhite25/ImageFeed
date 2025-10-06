@@ -23,19 +23,25 @@ final class WebViewViewController: UIViewController {
     
     weak var delegate: WebViewViewControllerDelegate?
     
+    // MARK: KVO Observation
+    private var estimatedProgressObservation: NSKeyValueObservation?
+
     // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         webView.navigationDelegate = self
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
+
+        
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+            options: [.new],
+            changeHandler: { [weak self] _, _ in
+                self?.updateProgress()
+            })
         
         loadAuthView()
-    }
-    
-    deinit {
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
     }
     
     // MARK: Private Methods
@@ -71,16 +77,6 @@ final class WebViewViewController: UIViewController {
     @IBAction private func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
     }
-    
-    // MARK: - KVO
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
 }
 
 // MARK: WKNavigationDelegate
@@ -113,3 +109,9 @@ extension WebViewViewController: WKNavigationDelegate {
         }
     }
 }
+
+
+
+
+
+
