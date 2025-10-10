@@ -7,6 +7,8 @@ final class ImagesListService {
     private var isLoading = false
 
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    
+    var onPhotosUpdated: (() -> Void)?
 
     func fetchPhotosNextPage() {
         guard !isLoading else { return }
