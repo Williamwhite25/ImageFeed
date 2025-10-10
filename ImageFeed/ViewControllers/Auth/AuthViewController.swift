@@ -1,4 +1,5 @@
 import UIKit
+import ProgressHUD
 
 // MARK: AuthViewControllerDelegate
 
@@ -53,7 +54,14 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        
+        vc.dismiss(animated: true)
+        
+        ProgressHUD.animate()
+        
         OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
+            ProgressHUD.dismiss()
+            
             switch result {
             case .success(let token):
                 print("Получен токен: \(token)")
@@ -65,9 +73,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 print("Ошибка: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     guard let self = self else { return }
-                    let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default))
-                    self.present(alert, animated: true)
+                    self.showAuthErrorAlert()
                 }
             }
         }
@@ -75,5 +81,20 @@ extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
+    }
+}
+
+// MARK: - Alert Handling
+
+extension AuthViewController {
+    func showAuthErrorAlert() {
+        let alertController = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "Ок", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
 }

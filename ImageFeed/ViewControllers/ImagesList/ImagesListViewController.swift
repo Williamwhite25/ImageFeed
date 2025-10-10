@@ -2,13 +2,14 @@ import UIKit
 
 final class ImagesListViewController: UIViewController {
     
-    //    MARK: Properties
+    // MARK: Properties
     
     private let segueID = "ShowSingleImage"
     
     @IBOutlet weak var tableView: UITableView!
     
-    private let photoNames: [String] = (0..<20).map (String.init)
+    private var photos: [Photo] = []
+    private let imagesListService = ImagesListService()
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -23,6 +24,15 @@ final class ImagesListViewController: UIViewController {
         
         tableView.rowHeight = 200
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        
+        // Подписка на обновления фотографий
+        imagesListService.onPhotosUpdated = { [weak self] in
+            self?.photos = self?.imagesListService.photos ?? []
+            self?.tableView.reloadData()
+        }
+        
+        // Начальная загрузка фотографий
+        imagesListService.fetchPhotosNextPage()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -35,7 +45,8 @@ final class ImagesListViewController: UIViewController {
                 return
             }
             
-            let image = UIImage(named: photoNames[indexPath.row])
+            // Получаем изображение по URL
+            let image = UIImage(named: photos[indexPath.row].thumbImageURL) // Изменено: используем URL миниатюры
             viewController.image = image
         } else {
             super.prepare(for: segue, sender: sender)
@@ -46,7 +57,7 @@ final class ImagesListViewController: UIViewController {
         return .lightContent
     }
     
-    //    MARK: Private Methods
+    // MARK: Private Methods
     
     private func addGradientBackground(to label: UILabel, in cell: UITableViewCell) {
         let gradientLayer = CAGradientLayer()
@@ -66,11 +77,11 @@ final class ImagesListViewController: UIViewController {
     }
 }
 
-// MARK: UITableViewDataSourse
+// MARK: UITableViewDataSource
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photoNames.count
+        return photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,16 +101,13 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photoNames[indexPath.row]) else {
-            return
-        }
-        
-        cell.cellImage.image = image
+        let photo = photos[indexPath.row] // Получаем объект Photo
+        cell.cellImage.image = UIImage(named: photo.thumbImageURL) // Получаем изображение по URL
         cell.dateLabel.text = dateFormatter.string(from: Date())
         
         addGradientBackground(to: cell.dateLabel, in: cell)
         
-        let isLiked = indexPath.row % 2 == 0
+        let isLiked = photo.isLiked // Используем свойство isLiked из объекта Photo
         let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         cell.likeButton.setImage(likeImage, for: .normal)
     }
@@ -113,7 +121,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let image = UIImage(named: photoNames[indexPath.row]) else {
+        guard let image = UIImage(named: photos[indexPath.row].thumbImageURL) else {
             return 0
         }
         
@@ -124,5 +132,4 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
     }
-    
 }
