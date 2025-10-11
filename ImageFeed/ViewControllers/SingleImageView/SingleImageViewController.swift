@@ -15,6 +15,8 @@ final class SingleImageViewController: UIViewController {
         }
     }
     
+    var imageURL: String?
+    
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var scrollView: UIScrollView!
     
@@ -26,11 +28,25 @@ final class SingleImageViewController: UIViewController {
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         
-        guard let image else { return }
+        
+        if let urlString = imageURL, let url = URL(string: urlString) {
+            imageView.kf.setImage(with: url, options: [.transition(.fade(0.2))])
+        } else if let image = image {
+            setupImageView(with: image)
+        }
+    }
+            
+    private func setupImageView(with image: UIImage) {
         imageView.image = image
         imageView.frame.size = image.size
         rescaleAndCenterImageInScrollView(image: image)
     }
+        
+//        guard let image else { return }
+//        imageView.image = image
+//        imageView.frame.size = image.size
+//        rescaleAndCenterImageInScrollView(image: image)
+//    }
     
     //    MARK: Actions
     
