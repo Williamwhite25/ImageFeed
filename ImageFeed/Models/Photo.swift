@@ -10,15 +10,20 @@ struct Photo {
     let welcomeDescription: String?
     let thumbImageURL: String
     let largeImageURL: String
-    let isLiked: Bool
+    var isLiked: Bool
     let blurHash: String?
-
+    
+    private static let iso8601Formatter: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        return f
+    }()
+    
     init(from photoResult: PhotoResult) {
         self.id = photoResult.id
         self.size = CGSize(width: photoResult.width, height: photoResult.height)
         
         if let createdAtString = photoResult.createdAt {
-            self.createdAt = ISO8601DateFormatter().date(from: createdAtString)
+            self.createdAt = Photo.iso8601Formatter.date(from: createdAtString)
         } else {
             self.createdAt = nil
         }
@@ -39,10 +44,23 @@ struct PhotoResult: Decodable {
     let color: String
     let blurHash: String?
     let likes: Int
-    let likedByUser: Bool? 
+    let likedByUser: Bool?
     let description: String?
     let urls: UrlsResult
-
+    
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case createdAt = "created_at"
+        case width
+        case height
+        case color
+        case blurHash = "blur_hash"
+        case likes
+        case likedByUser = "liked_by_user"
+        case description
+        case urls
+    }
+    
     struct UrlsResult: Decodable {
         let raw: String
         let full: String
@@ -51,3 +69,6 @@ struct PhotoResult: Decodable {
         let thumb: String
     }
 }
+
+
+

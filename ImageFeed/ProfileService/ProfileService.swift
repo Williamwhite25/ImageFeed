@@ -12,7 +12,7 @@ struct ProfileResult: Codable {
     let firstName: String
     let lastName: String?
     let bio: String?
-
+    
     private enum CodingKeys: String, CodingKey {
         case username
         case firstName = "first_name"
@@ -23,34 +23,34 @@ struct ProfileResult: Codable {
 
 final class ProfileService {
     static let shared = ProfileService()
-
+    
     private var task: URLSessionTask?
     private let urlSession = URLSession.shared
     private(set) var profile: Profile?
-
+    
     private init() {}
-
+    
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         task?.cancel()
-
+        
         guard !token.isEmpty else {
             let errorMessage = "[ProfileService.fetchProfile]: EmptyTokenError"
             print(errorMessage)
             completion(.failure(NSError(domain: "ProfileService", code: 401, userInfo: [NSLocalizedDescriptionKey: "Token is missing or invalid"])))
             return
         }
-
+        
         guard let request = makeProfileRequest(token: token) else {
             let errorMessage = "[ProfileService.fetchProfile]: InvalidRequest - токен \(token)"
             print(errorMessage)
             completion(.failure(URLError(.badURL)))
             return
         }
-
+        
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             DispatchQueue.main.async {
-                defer { self?.task = nil }  
-
+                defer { self?.task = nil }
+                
                 switch result {
                 case .success(let profileResult):
                     let profile = Profile(
@@ -68,21 +68,30 @@ final class ProfileService {
                 }
             }
         }
-
+        
         self.task = task
         task.resume()
     }
-
+    
     private func makeProfileRequest(token: String) -> URLRequest? {
         guard let url = URL(string: "https://api.unsplash.com/me") else {
             print("[ProfileService]: Ошибка создания URL")
             return nil
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
 }
+
+extension ProfileService {
+    func clear() {
+        task?.cancel()
+        profile = nil
+    }
+}
+
+
 
