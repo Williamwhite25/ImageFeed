@@ -5,7 +5,7 @@ final class SplashViewController: UIViewController {
     private let storage = OAuth2TokenStorage.shared
     private let profileService = ProfileService.shared
     private let imageView = UIImageView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupImageView()
@@ -17,7 +17,7 @@ final class SplashViewController: UIViewController {
             object: nil
         )
     }
-
+    
     private func setupImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "splash_screen_logo")
@@ -28,7 +28,7 @@ final class SplashViewController: UIViewController {
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -38,7 +38,7 @@ final class SplashViewController: UIViewController {
             presentAuthViewController()
         }
     }
-
+    
     @objc private func didAuthenticateNotification() {
         if let token = storage.token {
             fetchProfile(token: token)
@@ -46,26 +46,26 @@ final class SplashViewController: UIViewController {
             print("Ошибка: Токен отсутствует при получении уведомления об аутентификации.")
         }
     }
-
+    
     private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
-
+            
             guard let self = self else { return }
-
+            
             switch result {
             case let .success(profile):
                 ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in }
                 self.switchToTabBarController()
-
+                
             case let .failure(error):
                 print("Ошибка при получении профиля: \(error)")
                 break
             }
         }
     }
-
+    
     private func presentAuthViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         guard let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
@@ -75,7 +75,7 @@ final class SplashViewController: UIViewController {
         authViewController.modalPresentationStyle = .fullScreen
         present(authViewController, animated: true, completion: nil)
     }
-
+    
     private func switchToTabBarController() {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else {

@@ -25,21 +25,21 @@ final class WebViewViewController: UIViewController {
     
     // MARK: KVO Observation
     private var estimatedProgressObservation: NSKeyValueObservation?
-
+    
     // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         webView.navigationDelegate = self
-
+        
         
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
-            options: [.new],
-            changeHandler: { [weak self] _, _ in
-                self?.updateProgress()
-            })
+             options: [.new],
+             changeHandler: { [weak self] _, _ in
+                 self?.updateProgress()
+             })
         
         loadAuthView()
     }

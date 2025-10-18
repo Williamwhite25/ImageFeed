@@ -13,13 +13,13 @@ final class ProfileViewController: UIViewController {
     
     // MARK: Observer
     private var profileImageServiceObserver: NSObjectProtocol?
-
+    
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "ypBlack")
-
+        
         
         setupAvatarImageView()
         setupNameLabel()
@@ -109,7 +109,7 @@ final class ProfileViewController: UIViewController {
             print("Не удалось создать изображение для кнопки выхода")
             return
         }
-
+        
         logoutButton = UIButton.systemButton(
             with: logoutImage,
             target: self,
@@ -170,7 +170,16 @@ final class ProfileViewController: UIViewController {
     // MARK: Actions
     @objc
     private func didTapLogoutButton() {
-     
+        let alert = UIAlertController(
+            title: "Выйти из аккаунта?",
+            message: "Вы уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Выйти", style: .destructive) { _ in
+            ProfileLogoutService.shared.logout()
+        })
+        present(alert, animated: true)
     }
 }
 
