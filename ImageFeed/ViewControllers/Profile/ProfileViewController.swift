@@ -1,56 +1,69 @@
-
 import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    
     // MARK: UI Elements
     private var avatarImageView = UIImageView()
     private var nameLabel = UILabel()
     private var loginNameLabel = UILabel()
     private var descriptionLabel = UILabel()
     private var logoutButton = UIButton()
+
+    // MARK: Presenter
+    private var presenter: ProfilePresenterProtocol?
+    func configure(_ presenter: ProfilePresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.view = self
+    }
+
+    // MARK: Observer (fallback to old service-driven updates)
     
-    // MARK: Observer
     private var profileImageServiceObserver: NSObjectProtocol?
-    
+
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = UIColor(named: "ypBlack")
-        
-        
+
         setupAvatarImageView()
         setupNameLabel()
         setupLoginNameLabel()
         setupDescriptionLabel()
         setupLogoutButton()
+
         
-        if let profile = ProfileService.shared.profile {
-            updateProfileDetails(profile: profile)
-        } else {
-            print("Ошибка: Профиль не найден.")
+        presenter?.viewDidLoad()
+
+        avatarImageView.image = ProfileHelper.placeholderAvatar()
+        nameLabel.text = ProfileHelper.defaultName
+        loginNameLabel.text = ProfileHelper.defaultLogin
+        descriptionLabel.text = ProfileHelper.defaultBio
+
+        if presenter == nil {
+            if let profile = ProfileService.shared.profile {
+                updateProfileDetails(profile: profile)
+            } else {
+                print("Ошибка: Профиль не найден.")
+            }
+
+            profileImageServiceObserver = NotificationCenter.default.addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                self?.updateAvatar()
+            }
+
+            updateAvatar()
         }
-        
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            self.updateAvatar()
-        }
-        
-        updateAvatar()
     }
-    
+
     deinit {
         if let observer = profileImageServiceObserver {
             NotificationCenter.default.removeObserver(observer)
         }
     }
-    
+
     // MARK: Setup UI
     private func setupAvatarImageView() {
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +78,7 @@ final class ProfileViewController: UIViewController {
             avatarImageView.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
-    
+
     private func setupNameLabel() {
         nameLabel.textColor = UIColor.white
         nameLabel.font = UIFont.boldSystemFont(ofSize: 23)
@@ -77,7 +90,7 @@ final class ProfileViewController: UIViewController {
             nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 20)
         ])
     }
-    
+
     private func setupLoginNameLabel() {
         loginNameLabel.textColor = UIColor(red: 174/255, green: 175/255, blue: 180/255, alpha: 1.0)
         loginNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -89,7 +102,8 @@ final class ProfileViewController: UIViewController {
             loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
         ])
     }
-    
+
+
     private func setupDescriptionLabel() {
         descriptionLabel.textColor = UIColor(white: 1.0, alpha: 1.0)
         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -103,7 +117,7 @@ final class ProfileViewController: UIViewController {
             descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
         ])
     }
-    
+
     private func setupLogoutButton() {
         guard let logoutImage = UIImage(systemName: "ipad.and.arrow.forward") else {
             print("Не удалось создать изображение для кнопки выхода")
@@ -127,15 +141,15 @@ final class ProfileViewController: UIViewController {
             logoutButton.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
-    
-    // MARK: Update Profile Details
+
+    // MARK: Old-style Update Profile Details (fallback)
     private func updateProfileDetails(profile: Profile) {
-        nameLabel.text = profile.name.isEmpty ? "Имя не указано" : profile.name
-        loginNameLabel.text = profile.loginName.isEmpty ? "@неизвестный_пользователь" : profile.loginName
-        descriptionLabel.text = (profile.bio?.isEmpty ?? true) ? "Профиль не заполнен" : profile.bio
+        nameLabel.text = profile.name.isEmpty ? ProfileHelper.defaultName : profile.name
+        loginNameLabel.text = profile.loginName.isEmpty ? ProfileHelper.defaultLogin : profile.loginName
+        descriptionLabel.text = (profile.bio?.isEmpty ?? true) ? ProfileHelper.defaultBio : profile.bio
     }
-    
-    // MARK: Update Avatar
+
+    // MARK: Old-style Update Avatar (fallback)
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
@@ -166,10 +180,16 @@ final class ProfileViewController: UIViewController {
                 }
             }
     }
-    
+
     // MARK: Actions
     @objc
     private func didTapLogoutButton() {
+      
+        if let presenter = presenter {
+            presenter.didTapLogoutButton()
+            return
+        }
+
         let alert = UIAlertController(
             title: "Выйти из аккаунта?",
             message: "Вы уверены, что хотите выйти?",
@@ -183,7 +203,55 @@ final class ProfileViewController: UIViewController {
     }
 }
 
+// MARK: - ProfileViewProtocol
+extension ProfileViewController: ProfileViewProtocol {
+    func displayName(_ name: String) {
+        nameLabel.text = name
+    }
 
+    func displayLogin(_ login: String) {
+        loginNameLabel.text = login
+    }
 
+    func displayBio(_ bio: String) {
+        descriptionLabel.text = bio
+    }
 
+    func displayAvatar(url: URL?) {
+        let placeholder = ProfileHelper.placeholderAvatar()
+        avatarImageView.kf.indicatorType = .activity
 
+        guard let url = url else {
+            avatarImageView.kf.cancelDownloadTask()
+            avatarImageView.image = placeholder
+            return
+        }
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
+        avatarImageView.kf.setImage(
+            with: url,
+            placeholder: placeholder,
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ]) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success: break
+                case .failure(let error):
+                    print("Ошибка загрузки аватара: \(error.localizedDescription)")
+                    self.avatarImageView.image = placeholder
+                }
+            }
+    }
+
+    func showLogoutConfirmation(title: String, message: String, confirmAction: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Выйти", style: .destructive) { _ in
+            confirmAction()
+        })
+        present(alert, animated: true)
+    }
+}
