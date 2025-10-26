@@ -111,10 +111,19 @@ extension ImagesListViewController: UITableViewDelegate {
         presenter.heightForRow(at: indexPath.row, tableWidth: tableView.bounds.width)
     }
 
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let isUITesting = ProcessInfo.processInfo.arguments.contains("-uiTesting")
+        guard !isUITesting else { return }
         presenter.willDisplayRow(at: indexPath.row, tableWidth: tableView.bounds.width)
     }
+    
 }
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        
+//        presenter.willDisplayRow(at: indexPath.row, tableWidth: tableView.bounds.width)
+//    }
+//}
 
 extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {

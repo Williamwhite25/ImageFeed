@@ -83,6 +83,9 @@ final class ProfileViewController: UIViewController {
         nameLabel.textColor = UIColor.white
         nameLabel.font = UIFont.boldSystemFont(ofSize: 23)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.accessibilityIdentifier = "profile_name_label"
+        nameLabel.accessibilityLabel = "Name Lastname"
+        
         view.addSubview(nameLabel)
         
         NSLayoutConstraint.activate([
@@ -95,6 +98,10 @@ final class ProfileViewController: UIViewController {
         loginNameLabel.textColor = UIColor(red: 174/255, green: 175/255, blue: 180/255, alpha: 1.0)
         loginNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        loginNameLabel.accessibilityIdentifier = "profile_login_label"
+        loginNameLabel.accessibilityLabel = "@username"
+        
+        
         view.addSubview(loginNameLabel)
         
         NSLayoutConstraint.activate([
@@ -129,6 +136,8 @@ final class ProfileViewController: UIViewController {
             target: self,
             action: #selector(didTapLogoutButton)
         )
+        
+        logoutButton.accessibilityIdentifier = "logout button"
         
         logoutButton.tintColor = UIColor(red: 245/255, green: 107/255, blue: 108/255, alpha: 1.0)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false

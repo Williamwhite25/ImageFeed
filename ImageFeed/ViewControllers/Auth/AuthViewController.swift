@@ -11,12 +11,17 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
+    
+    @IBOutlet private weak var authenticateButton: UIButton!
+    
     weak var delegate: AuthViewControllerDelegate?
     
     // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        authenticateButton.accessibilityIdentifier = "Authenticate"
         
         configureBackButton()
     }
@@ -51,6 +56,7 @@ final class AuthViewController: UIViewController {
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "ypBlack")
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "nav back button white"
     }
 }
 

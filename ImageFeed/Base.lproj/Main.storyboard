@@ -229,9 +229,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rcg-mo-haQ">
                                 <rect key="frame" x="16" y="680" width="361" height="48"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <accessibility key="accessibilityConfiguration" identifier="Authenticate">
-                                    <bool key="isElement" value="YES"/>
-                                </accessibility>
+                                <accessibility key="accessibilityConfiguration" identifier="Authenticate"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="Tbp-Vq-VN1"/>
                                 </constraints>
@@ -261,6 +259,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="OUE-hj-eU4"/>
+                    <connections>
+                        <outlet property="authenticateButton" destination="rcg-mo-haQ" id="knX-bL-xPY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9f7-5r-1Ty" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
