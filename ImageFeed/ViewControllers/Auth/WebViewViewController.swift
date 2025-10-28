@@ -50,7 +50,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
             guard let self = self else { return }
             self.presenter?.didUpdateProgressValue(webView.estimatedProgress)
         }
-           
+        
         presenter?.viewDidLoad()
     }
     
@@ -90,7 +90,7 @@ extension WebViewViewController: WKNavigationDelegate {
         }
     }
     
-
+    
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if let url = navigationAction.request.url {
             return presenter?.code(from: url)
