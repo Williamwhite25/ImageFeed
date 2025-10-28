@@ -16,82 +16,132 @@ class Image_FeedUITests: XCTestCase {
         
         app = XCUIApplication() // Для второго теста
         app.launchArguments = ["-uiTesting"] // Для второго теста
-       
-       
-        
         app.launch()
         
     }
     
     
+    
     func testAuth() throws {
         print(app.debugDescription)
         
-        app.buttons["Authenticate"].tap()
+        let button = app.buttons["Authenticate"]
         
-        print(app.debugDescription)
+        XCTAssertTrue(button.waitForExistence(timeout: 5))
         
+        
+        button.tap()
+    
         let webView = app.webViews["UnsplashWebView"]
         
-        XCTAssertTrue(webView.waitForExistence(timeout: 15))
-        
-        print(app.debugDescription)
+        XCTAssertTrue(webView.waitForExistence(timeout: 5))
 
         let loginTextField = webView.descendants(matching: .textField).element
-        
-        print(app.debugDescription)
-        
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
-        
-        print(app.debugDescription)
         
         loginTextField.tap()
         loginTextField.typeText("")
-        
-        print(app.debugDescription)
        
+        print(app.debugDescription)
+        
         let doneButton = app.keyboards.buttons["Done"]
         if doneButton.exists {
             doneButton.tap()
-        } else {
-            app.keyboards.buttons["Return"].tap()
         }
         
         print(app.debugDescription)
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
-        
-        print(app.debugDescription)
-        
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         
         passwordTextField.tap()
         passwordTextField.typeText("")
         
-        print(app.debugDescription)
-       
-        let keyboards = app.keyboards
-        if keyboards.buttons["Done"].exists {
-            keyboards.buttons["Done"].tap()
-        } else if keyboards.buttons["Return"].exists {
-            keyboards.buttons["Return"].tap()
-        } else if keyboards.keys["done"].exists {
-            keyboards.keys["done"].tap()
+        let keyboards = app.keyboards.buttons["Done"]
+        if keyboards.exists {
+            keyboards.tap()
         }
-        
-        print(app.debugDescription)
+          
         
         webView.buttons["Login"].tap()
-        
-        print(app.debugDescription)
         
         let tablesQuery = app.tables
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
         
         XCTAssertTrue(cell.waitForExistence(timeout: 5))
-        
-        print(app.debugDescription)
     }
+    
+    
+    
+    
+//    func testAuth() throws {
+//        print(app.debugDescription)
+//        
+//        app.buttons["Authenticate"].tap()
+//        
+//        print(app.debugDescription)
+//        
+//        let webView = app.webViews["UnsplashWebView"]
+//        
+//        XCTAssertTrue(webView.waitForExistence(timeout: 15))
+//        
+//        print(app.debugDescription)
+//
+//        let loginTextField = webView.descendants(matching: .textField).element
+//        
+//        print(app.debugDescription)
+//        
+//        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
+//        
+//        print(app.debugDescription)
+//        
+//        loginTextField.tap()
+//        loginTextField.typeText("")
+//        
+//        print(app.debugDescription)
+//       
+//        let doneButton = app.keyboards.buttons["Done"]
+//        if doneButton.exists {
+//            doneButton.tap()
+//        } else {
+//            app.keyboards.buttons["Return"].tap()
+//        }
+//        
+//        print(app.debugDescription)
+//        
+//        let passwordTextField = webView.descendants(matching: .secureTextField).element
+//        
+//        print(app.debugDescription)
+//        
+//        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
+//        
+//        passwordTextField.tap()
+//        passwordTextField.typeText("")
+//        
+//        print(app.debugDescription)
+//       
+//        let keyboards = app.keyboards
+//        if keyboards.buttons["Done"].exists {
+//            keyboards.buttons["Done"].tap()
+//        } else if keyboards.buttons["Return"].exists {
+//            keyboards.buttons["Return"].tap()
+//        } else if keyboards.keys["done"].exists {
+//            keyboards.keys["done"].tap()
+//        }
+//        
+//        print(app.debugDescription)
+//        
+//        webView.buttons["Login"].tap()
+//        
+//        print(app.debugDescription)
+//        
+//        let tablesQuery = app.tables
+//        let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
+//        
+//        XCTAssertTrue(cell.waitForExistence(timeout: 5))
+//        
+//        print(app.debugDescription)
+//    }
     
     
     
