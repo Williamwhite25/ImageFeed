@@ -1,10 +1,3 @@
-# Image Feed
-
-# Ссылки
-
-- [Дизайн в Figma](https://www.figma.com/design/MujlanK7BDoQRrGci5G6pi/Image-Feed)
-- [Unsplash API](https://unsplash.com/documentation)
-
 # Назначение и цели приложения
 
 Многостраничное приложение предназначено для просмотра изображений через API Unsplash.
